@@ -10,6 +10,7 @@ import Pelanggarann from "./pages/Pelanggarann";
 import Kategori_Pelanggaran from "./pages/Kategori_Pelanggaran";
 import Petugas from "./pages/Petugas";
 import Kelas from "./pages/Kelas";
+// import Login from './pages/Login/Login';
 
 export default function App() {
     return <div>
@@ -31,6 +32,7 @@ export default function App() {
                     element={<Petugas />} />
                     <Route path="/kelas"
                     element={<Kelas />} />
+                    {/* <Route path="/login" component={Login} /> */}
                 </Routes>
             </Box>
         </Router>

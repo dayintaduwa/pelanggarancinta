@@ -376,41 +376,42 @@
 //     );
 // }
 
-import React, { useEffect, useState } from 'react';
-import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import React, { useEffect, useState } from 'react'
+import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import { BrowserRouter as Router, Link} from "react-router-dom";
+// import useRequestResource from 'src/hooks/useRequestResource';
+
 import client from 'src/Utils/client';
 
-export default function Pelanggarann() {
-    const [pelanggarannData, setPelanggarannData] = useState([]);
-    const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [openAddDialog, setOpenAddDialog] = useState(false);
-    const [currentPelanggaran, setCurrentPelanggaran] = useState(null);
-    const [newPelanggaran, setNewPelanggaran] = useState({
-        SekolahId: '',
-        TglJam: '',
-        PetugasId: '',
-        SiswaId: '',
-        KategoriId: '',
-        Poin: '',
-        Catatan: ''
-    });
+    export default function Pelanggarann() {
+        const [PelanggarannData, setPelanggarannData] = useState([]);
+        const [openEditDialog, setOpenEditDialog] = useState(false);
+        const [openAddDialog, setOpenAddDialog] = useState(false);
+        const [currentPelanggarann, setCurrentPelanggarann] = useState(null);
+        const [newPelanggarann, setNewPelanggarann] = useState({
+            TglJam: '',
+            Poin: '',
+            Catatan: '',
+            SekolahId: '',
+            PetugasId: '',
+            SiswaId: '',
+            KategoriId: ''
+          });
 
-    useEffect(() => {
-        client.get('http://127.0.0.1:8000/api/pelanggarann/')
-            .then(({ data }) => {
-                setPelanggarannData(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+        useEffect(() => {
+            client.get('http://127.0.0.1:8000/api/pelanggarann/')
+                .then(({ data }) => {
+                    setPelanggarannData(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }, []);
 
-    const handleDelete = (id) => {
-        const confirmDelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?");
-        if (confirmDelete) {
+        const handleDelete = (id) => {
             client.delete(`http://127.0.0.1:8000/api/pelanggarann/${id}/`)
                 .then(() => {
                     // Update state to remove deleted item
@@ -419,173 +420,172 @@ export default function Pelanggarann() {
                 .catch((err) => {
                     console.log(err);
                 });
-        }
-    };
+        };
+    
+        const handleEdit = (pelanggarann) => {
+            setCurrentPelanggarann(pelanggarann);
+            setOpenEditDialog(true);
+        };
+    
+        const handleCloseEditDialog = () => {
+            setOpenEditDialog(false);
+            setCurrentPelanggarann(null);
+        };
 
-    const handleEdit = (pelanggaran) => {
-        setCurrentPelanggaran(pelanggaran);
-        setOpenEditDialog(true);
-    };
-
-    const handleCloseEditDialog = () => {
-        setOpenEditDialog(false);
-        setCurrentPelanggaran(null);
-    };
-
-    const handleSaveEdit = () => {
-        if (currentPelanggaran) {
-            client.put(`http://127.0.0.1:8000/api/pelanggarann/${currentPelanggaran.id}/`, currentPelanggaran)
-                .then(() => {
-                    setPelanggarannData((prevData) => prevData.map((item) => item.id === currentPelanggaran.id ? currentPelanggaran : item));
-                    handleCloseEditDialog();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setCurrentPelanggaran({
-            ...currentPelanggaran,
-            [name]: value
-        });
-    };
-
-    const handleOpenAddDialog = () => {
-        setOpenAddDialog(true);
-    };
-
-    const handleCloseAddDialog = () => {
-        setOpenAddDialog(false);
-        setNewPelanggaran({
-            SekolahId: '',
-            TglJam: '',
-            PetugasId: '',
-            SiswaId: '',
-            KategoriId: '',
-            Poin: '',
-            Catatan: ''
-        });
-    };
-
-    const handleSaveAdd = () => {
-        client.post('http://127.0.0.1:8000/api/pelanggarann/', newPelanggaran)
-            .then(({ data }) => {
-                setPelanggarannData((prevData) => [...prevData, data]);
-                handleCloseAddDialog();
-            })
-            .catch((err) => {
-                console.log(err);
+        const handleSaveEdit = () => {
+            if (currentPelanggarann) {
+                client.put(`http://127.0.0.1:8000/api/pelanggarann/${currentPelanggarann.id}/`, currentPelanggarann)
+                    .then(() => {
+                        setPelanggarannData((prevData) => prevData.map((item) => item.id === currentPelanggarann.id ? currentPelanggarann : item));
+                        handleCloseEditDialog();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        };
+    
+        const handleChange = (e) => {
+            const { name, value } = e.target;
+            setCurrentPelanggarann({
+                ...currentPelanggarann,
+                [name]: value
             });
-    };
+        };
 
-    const handleNewPelanggaranChange = (e) => {
-        const { name, value } = e.target;
-        setNewPelanggaran({
-            ...newPelanggaran,
-            [name]: value
-        });
-    };
+        // function add
+        const handleAddChange = (e) => {
+            const { name, value } = e.target;
+            setNewPelanggarann({
+              ...newPelanggarann,
+              [name]: value
+            });
+          };
+        
+          const handleOpenAddDialog = () => {
+            setOpenAddDialog(true);
+          };
+        
+          const handleCloseAddDialog = () => {
+            setOpenAddDialog(false);
+            setNewPelanggarann({
+                TglJam: '',
+                Poin: '',
+                Catatan: '',
+                SekolahId: '',
+                PetugasId: '',
+                SiswaId: '',
+                KategoriId: ''
+            });
+          };
+        
+          const handleSaveAdd = () => {
+            console.log('Saving new pelanggaran:', newPelanggarann);
+            client.post('http://127.0.0.1:8000/api/pelanggarann/', newPelanggarann)
+              .then(({ data }) => {
+                setPelanggarannData([...PelanggarannData, data]);
+                handleCloseAddDialog();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          };
 
-    return (
-        <div>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button variant="contained" color="primary" onClick={handleOpenAddDialog}>
-                    Add New
-                </Button>
-            </Box>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 360 }} size="small">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Sekolah</TableCell>
-                            <TableCell align="center">Tanggal dan Jam</TableCell>
-                            <TableCell align="center">Petugas</TableCell>
-                            <TableCell align="center">Siswa</TableCell>
-                            <TableCell align="center">Kategori Pelanggaran</TableCell>
-                            <TableCell align="center">Poin</TableCell>
-                            <TableCell align="center">Catatan</TableCell>
-                            <TableCell align="center">Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {pelanggarannData.map((r) => (
-                            <TableRow key={r.id}>
-                                <TableCell align="center">{r.SekolahId}</TableCell>
-                                <TableCell align="center">{r.TglJam}</TableCell>
-                                <TableCell align="center">{r.PetugasId}</TableCell>
-                                <TableCell align="center">{r.SiswaId}</TableCell>
-                                <TableCell align="center">{r.KategoriId}</TableCell>
-                                <TableCell align="center">{r.Poin}</TableCell>
-                                <TableCell align="center">{r.Catatan}</TableCell>
-                                <TableCell align="center">
-                                    <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                        <IconButton size="large" onClick={() => handleEdit(r)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton size="large" onClick={() => handleDelete(r.id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Box>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+return (
+    <div>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, mt: 2 }}>
+        <Button variant="contained" color="primary" onClick={handleOpenAddDialog} startIcon={<AddIcon />}>
+          Tambah Pelanggaran 
+        </Button>
+      </Box>
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 360 }} size="small">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center">
+                            Tanggal dan Jam
+                        </TableCell>
+                        <TableCell align="center">
+                            Poin
+                        </TableCell>
+                        <TableCell align="center">
+                            Catatan
+                        </TableCell>
+                        <TableCell align="center">
+                            Sekolah
+                        </TableCell>
+                        <TableCell align="center">
+                            Petugas
+                        </TableCell>
+                        <TableCell align="center">
+                            Pelanggarann
+                        </TableCell>
+                        <TableCell align="center">
+                            Kategori
+                        </TableCell>
+                        <TableCell align="center">
+                            Actions
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {PelanggarannData.map((r) => {
+                        return <TableRow key={r.id}>
+                            <TableCell align="left">
+                                {r.TglJam}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.Poin}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.Catatan}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.SekolahId}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.PetugasId}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.PelanggarannId}
+                            </TableCell>
+                            <TableCell align="left">
+                                {r.KategoriId} 
+                            </TableCell>
 
-            <Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
-                <DialogTitle>Edit Pelanggaran</DialogTitle>
+<TableCell align="right">
+    <Box sx={{ display: "flex", justifyContent: "flex-end"}}>
+        {/* <Link to={/pelanggrann/edit/${r.id}} key="pelanggarann-edit"> */}
+        <IconButton size="large" onClick={() => handleEdit(r)}>
+                <EditIcon />
+            </IconButton>
+        {/* </Link> */}
+
+        <IconButton size="large" onClick={() => handleDelete(r.id)}>
+            <DeleteIcon />
+        </IconButton>
+    </Box>
+</TableCell>
+</TableRow>
+})}
+</TableBody>
+</Table>
+</TableContainer>
+
+<Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
+                <DialogTitle>Edit Pelanggarann</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Silakan edit informasi pelanggaran di bawah ini.
+                        Silakan edit informasi Pelanggarann di bawah ini.
                     </DialogContentText>
                     <TextField
                         autoFocus
-                        margin="dense"
-                        name="SekolahId"
-                        label="Sekolah"
-                        type="text"
-                        fullWidth
-                        value={currentPelanggaran?.SekolahId || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
                         margin="dense"
                         name="TglJam"
                         label="Tanggal dan Jam"
                         type="text"
                         fullWidth
-                        value={currentPelanggaran?.TglJam || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="PetugasId"
-                        label="Petugas"
-                        type="text"
-                        fullWidth
-                        value={currentPelanggaran?.PetugasId || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="SiswaId"
-                        label="Siswa"
-                        type="text"
-                        fullWidth
-                        value={currentPelanggaran?.SiswaId || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="KategoriId"
-                        label="Kategori Pelanggaran"
-                        type="text"
-                        fullWidth
-                        value={currentPelanggaran?.KategoriId || ''}
+                        value={currentPelanggarann?.TglJam || ''}
                         onChange={handleChange}
                     />
                     <TextField
@@ -594,7 +594,7 @@ export default function Pelanggarann() {
                         label="Poin"
                         type="text"
                         fullWidth
-                        value={currentPelanggaran?.Poin || ''}
+                        value={currentPelanggarann?.Poin || ''}
                         onChange={handleChange}
                     />
                     <TextField
@@ -603,7 +603,43 @@ export default function Pelanggarann() {
                         label="Catatan"
                         type="text"
                         fullWidth
-                        value={currentPelanggaran?.Catatan || ''}
+                        value={currentPelanggarann?.Catatan || ''}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="SekolahId"
+                        label="Sekolah"
+                        type="text"
+                        fullWidth
+                        value={currentPelanggarann?.SekolahId || ''}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="PetugasId"
+                        label="Petugas"
+                        type="text"
+                        fullWidth
+                        value={currentPelanggarann?.PetugasId || ''}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="SiswaId"
+                        label="Siswa"
+                        type="text"
+                        fullWidth
+                        value={currentPelanggarann?.SiswaId || ''}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="KategoriId"
+                        label="Kategori"
+                        type="text"
+                        fullWidth
+                        value={currentPelanggarann?.KategoriId || ''}
                         onChange={handleChange}
                     />
                 </DialogContent>
@@ -613,57 +649,22 @@ export default function Pelanggarann() {
                 </DialogActions>
             </Dialog>
 
-            <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
-                <DialogTitle>Add New Pelanggaran</DialogTitle>
+        {/* dialog add */}
+        <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
+                <DialogTitle>Add Pelanggarann</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Silakan tambahkan informasi pelanggaran di bawah ini.
+                        Silakan add informasi Pelanggarann di bawah ini.
                     </DialogContentText>
                     <TextField
                         autoFocus
-                        margin="dense"
-                        name="SekolahId"
-                        label="Sekolah"
-                        type="text"
-                        fullWidth
-                        value={newPelanggaran.SekolahId}
-                        onChange={handleNewPelanggaranChange}
-                    />
-                    <TextField
                         margin="dense"
                         name="TglJam"
                         label="Tanggal dan Jam"
                         type="text"
                         fullWidth
-                        value={newPelanggaran.TglJam}
-                        onChange={handleNewPelanggaranChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="PetugasId"
-                        label="Petugas"
-                        type="text"
-                        fullWidth
-                        value={newPelanggaran.PetugasId}
-                        onChange={handleNewPelanggaranChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="SiswaId"
-                        label="Siswa"
-                        type="text"
-                        fullWidth
-                        value={newPelanggaran.SiswaId}
-                        onChange={handleNewPelanggaranChange}
-                    />
-                    <TextField
-                        margin="dense"
-                        name="KategoriId"
-                        label="Kategori Pelanggaran"
-                        type="text"
-                        fullWidth
-                        value={newPelanggaran.KategoriId}
-                        onChange={handleNewPelanggaranChange}
+                        value={newPelanggarann.TglJam}
+                        onChange={handleAddChange}
                     />
                     <TextField
                         margin="dense"
@@ -671,8 +672,8 @@ export default function Pelanggarann() {
                         label="Poin"
                         type="text"
                         fullWidth
-                        value={newPelanggaran.Poin}
-                        onChange={handleNewPelanggaranChange}
+                        value={newPelanggarann.Poin}
+                        onChange={handleAddChange}
                     />
                     <TextField
                         margin="dense"
@@ -680,8 +681,44 @@ export default function Pelanggarann() {
                         label="Catatan"
                         type="text"
                         fullWidth
-                        value={newPelanggaran.Catatan}
-                        onChange={handleNewPelanggaranChange}
+                        value={newPelanggarann.Catatan}
+                        onChange={handleAddChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="SekolahId"
+                        label="Sekolah"
+                        type="text"
+                        fullWidth
+                        value={newPelanggarann.SekolahId}
+                        onChange={handleAddChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="PetugasId"
+                        label="Petugas"
+                        type="text"
+                        fullWidth
+                        value={newPelanggarann.PetugasId}
+                        onChange={handleAddChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="SiswaId"
+                        label="Siswa"
+                        type="text"
+                        fullWidth
+                        value={newPelanggarann.SiswaId}
+                        onChange={handleAddChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="KategoriId"
+                        label="Kategori"
+                        type="text"
+                        fullWidth
+                        value={newPelanggarann.KategoriId}
+                        onChange={handleAddChange}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -689,6 +726,7 @@ export default function Pelanggarann() {
                     <Button onClick={handleSaveAdd}>Save</Button>
                 </DialogActions>
             </Dialog>
-        </div>
-    );
+
+</div>
+)
 }

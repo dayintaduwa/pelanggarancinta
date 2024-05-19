@@ -1,197 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer } from "@mui/material";
-// import EditIcon from "@mui/icons-material/Edit";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import { BrowserRouter as Router, Link} from "react-router-dom";
-// // import useRequestResource from 'src/hooks/useRequestResource';
-
-// import client from 'src/Utils/client';
-
-
-//     const results = [
-//         {
-//             // id: 1,
-//             // nama: "SMK Brantas Karangkates",
-//             // alamat: "Jl. Lolaras No. 14 Karangkates",
-//             // kota: "Malang",
-//             // provinsi: "Jawa Timur",
-//             // notelp: "(0341)385876",
-//             // email: "smkbrantas@gmail.com",
-//             // website: "https://smkbrantaskarangkates.sch.id/",
-//             // catatan: "Disiplin Tanggung Jawab Patuh Taat "
-
-//         },
-//         {
-//             // id: 2,
-//             // nama: "SMKN 8 Jember",
-//             // alamat: "Jalan apelita No.27",
-//             // kota: "Jember",
-//             // provinsi: "Jawa Timur",
-//             // notelp: "0182327",
-//             // email:"smknjember@gmail.com",
-//             // website:"smknjember.sch.id",
-//             // catatan:"catatan",
-
-//         }
-//     ]
-
-//     export default function Kategori_Pelanggaran() {
-//         const [kategori_pelanggaranData, setKategori_PelanggaranData] = useState([]);
-    
-//         useEffect(() => {
-//             client.get('api/kategori/')
-//                 .then(({ data }) => {
-//                     setKategori_PelanggaranData(data);
-//                 })
-//                 .catch((err) => {
-//                     console.log(err);
-//                 });
-//         }, []);
-
-// return (
-//     <div>
-//         <TableContainer component={Paper}>
-//             <Table sx={{ minWidth: 360 }} size="small">
-//                 <TableHead>
-//                     <TableRow>
-//                         <TableCell align="center">
-//                             Sekolah
-//                         </TableCell>
-//                         <TableCell align="center">
-//                             Nama
-//                         </TableCell>
-//                         <TableCell align="center">
-//                             Poin
-//                         </TableCell>
-//                         <TableCell align="center">
-//                             Pesan
-//                         </TableCell>
-//                         <TableCell align="center">
-//                             Catatan
-//                         </TableCell>
-//                         <TableCell align="center">
-//                             Actions
-//                         </TableCell>
-//                     </TableRow>
-//                 </TableHead>
-//                 <TableBody>
-//                     {kategori_pelanggaranData.map((r) => {
-//                         return <TableRow key={r.id}>
-//                             <TableCell align="center">
-//                                 {r.SekolahId}
-//                             </TableCell>
-//                             <TableCell align="center">
-//                                 {r.Nama}
-//                             </TableCell>
-//                             <TableCell align="center">
-//                                 {r.Poin}
-//                             </TableCell>
-//                             <TableCell align="center">
-//                                 {r.Pesan}
-//                             </TableCell>
-//                             <TableCell align="center">
-//                                 {r.Catatan}
-//                             </TableCell>
-//                             <TableCell align="center">
-//                                 <Box sx={{ display: "flex", justifyContent: "center"}}>
-//                                     <Link to={`/kategori_pelanggaran/edit/${r.id}`} key="kategori_pelanggaran-edit">
-//                                         <IconButton size="large">
-//                                             <EditIcon />
-//                                         </IconButton>
-//                                     </Link>
-
-//                                     <IconButton size="large" onClick={null}>
-//                                         <DeleteIcon />
-//                                     </IconButton>
-//                                 </Box>
-//                             </TableCell>
-//                         </TableRow>
-//                     })}
-//                 </TableBody>
-//             </Table>
-//         </TableContainer>
-//     </div>
-//   )
-// }
-
-// import React, { useEffect, useState } from 'react';
-// import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer } from "@mui/material";
-// import EditIcon from "@mui/icons-material/Edit";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import { BrowserRouter as Router, Link } from "react-router-dom";
-// import client from 'src/Utils/client';
-
-// export default function Kategori_Pelanggaran() {
-//     const [kategori_pelanggaranData, setKategori_PelanggaranData] = useState([]);
-
-//     useEffect(() => {
-//         client.get('http://127.0.0.1:8000/api/kategori/')
-//             .then(({ data }) => {
-//                 setKategori_PelanggaranData(data);
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//     }, []);
-
-//     const handleDelete = (id) => {
-//         const confirmDelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?");
-//         if (confirmDelete) {
-//             client.delete(`http://127.0.0.1:8000/api/kategori/${id}/`)
-//                 .then(() => {
-//                     // Update state to remove deleted item
-//                     setKategori_PelanggaranData((prevData) => prevData.filter((item) => item.id !== id));
-//                 })
-//                 .catch((err) => {
-//                     console.log(err);
-//                 });
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <TableContainer component={Paper}>
-//                 <Table sx={{ minWidth: 360 }} size="small">
-//                     <TableHead>
-//                         <TableRow>
-//                             <TableCell align="center">Sekolah</TableCell>
-//                             <TableCell align="center">Nama</TableCell>
-//                             <TableCell align="center">Poin</TableCell>
-//                             <TableCell align="center">Pesan</TableCell>
-//                             <TableCell align="center">Catatan</TableCell>
-//                             <TableCell align="center">Actions</TableCell>
-//                         </TableRow>
-//                     </TableHead>
-//                     <TableBody>
-//                         {kategori_pelanggaranData.map((r) => (
-//                             <TableRow key={r.id}>
-//                                 <TableCell align="center">{r.SekolahId}</TableCell>
-//                                 <TableCell align="center">{r.Nama}</TableCell>
-//                                 <TableCell align="center">{r.Poin}</TableCell>
-//                                 <TableCell align="center">{r.Pesan}</TableCell>
-//                                 <TableCell align="center">{r.Catatan}</TableCell>
-//                                 <TableCell align="center">
-//                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
-//                                         <Link to={`/kategori_pelanggaran/edit/${r.id}`} key="kategori_pelanggaran-edit">
-//                                             <IconButton size="large">
-//                                                 <EditIcon />
-//                                             </IconButton>
-//                                         </Link>
-
-//                                         <IconButton size="large" onClick={() => handleDelete(r.id)}>
-//                                             <DeleteIcon />
-//                                         </IconButton>
-//                                     </Box>
-//                                 </TableCell>
-//                             </TableRow>
-//                         ))}
-//                     </TableBody>
-//                 </Table>
-//             </TableContainer>
-//         </div>
-//     );
-// }
-
 // import React, { useEffect, useState } from 'react';
 // import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 // import EditIcon from "@mui/icons-material/Edit";
@@ -360,40 +166,54 @@
 // }
 
 import React, { useEffect, useState } from 'react';
-import { Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { 
+    Button, Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, IconButton, TableContainer, 
+    Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions,  Select, MenuItem, 
+    FormControl, InputLabel  } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 import client from 'src/Utils/client';
 
-export default function Kategori_Pelanggaran() {
-    const [kategori_pelanggaranData, setKategori_PelanggaranData] = useState([]);
+export default function Kategori() {
+    const [KategoriData, setKategoriData] = useState([]);
+    const [SekolahData, setSekolahData] = useState([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [currentKategori, setCurrentKategori] = useState(null);
+    const [newKategori, setNewKategori] = useState({
+        Nama: '',
+        Poin: '',
+        Pesan: '',
+        Catatan: '',
+        SekolahId: ''
+    });
 
     useEffect(() => {
         client.get('http://127.0.0.1:8000/api/kategori/')
             .then(({ data }) => {
-                setKategori_PelanggaranData(data);
+                setKategoriData(data);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
-
-    const handleDelete = (id) => {
-        const confirmDelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?");
-        if (confirmDelete) {
-            client.delete(`http://127.0.0.1:8000/api/kategori/${id}/`)
-                .then(() => {
-                    // Update state to remove deleted item
-                    setKategori_PelanggaranData((prevData) => prevData.filter((item) => item.id !== id));
+            client.get('http://127.0.0.1:8000/api/sekolah/')
+                .then(({ data }) => {
+                    setSekolahData(data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        }
+    }, []);
+
+    const handleDelete = (id) => {
+        client.delete(`http://127.0.0.1:8000/api/kategori/${id}/`)
+            .then(() => {
+                setKategoriData((prevData) => prevData.filter((item) => item.id !== id));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleEdit = (kategori) => {
@@ -410,31 +230,8 @@ export default function Kategori_Pelanggaran() {
         if (currentKategori) {
             client.put(`http://127.0.0.1:8000/api/kategori/${currentKategori.id}/`, currentKategori)
                 .then(() => {
-                    setKategori_PelanggaranData((prevData) => prevData.map((item) => item.id === currentKategori.id ? currentKategori : item));
+                    setKategoriData((prevData) => prevData.map((item) => item.id === currentKategori.id ? currentKategori : item));
                     handleCloseEditDialog();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    };
-
-    const handleAddNew = () => {
-        setCurrentKategori({ SekolahId: '', Nama: '', Poin: '', Pesan: '', Catatan: '' });
-        setOpenAddDialog(true);
-    };
-
-    const handleCloseAddDialog = () => {
-        setOpenAddDialog(false);
-        setCurrentKategori(null);
-    };
-
-    const handleSaveNew = () => {
-        if (currentKategori) {
-            client.post('http://127.0.0.1:8000/api/kategori/', currentKategori)
-                .then(({ data }) => {
-                    setKategori_PelanggaranData((prevData) => [...prevData, data]);
-                    handleCloseAddDialog();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -450,35 +247,73 @@ export default function Kategori_Pelanggaran() {
         });
     };
 
+    const handleAddChange = (e) => {
+        const { name, value } = e.target;
+        setNewKategori({
+            ...newKategori,
+            [name]: value
+        });
+    };
+
+    const handleOpenAddDialog = () => {
+        setOpenAddDialog(true);
+    };
+
+    const handleCloseAddDialog = () => {
+        setOpenAddDialog(false);
+        setNewKategori({
+            Nama: '',
+            Poin: '',
+            Pesan: '',
+            Catatan: '',
+            SekolahId: ''
+        });
+    };
+
+    const handleSaveAdd = () => {
+        console.log('Saving new kategori:', newKategori);
+        client.post('http://127.0.0.1:8000/api/kategori/', newKategori)
+            .then(({ data }) => {
+                setKategoriData([...KategoriData, data]);
+                handleCloseAddDialog();
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.error('Error response:', err.response.data);
+                } else {
+                    console.error('Error message:', err.message);
+                }
+            });
+    };
+
     return (
         <div>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, mt: 2}}>
-                <Button variant="contained" color="primary" onClick={handleAddNew}>
-                    Add New Kategori Pelanggaran
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, mt: 2 }}>
+                <Button variant="contained" color="primary" onClick={handleOpenAddDialog} startIcon={<AddIcon />}>
+                    Tambah Kategori
                 </Button>
             </Box>
-
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 360 }} size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Sekolah</TableCell>
                             <TableCell align="center">Nama</TableCell>
                             <TableCell align="center">Poin</TableCell>
                             <TableCell align="center">Pesan</TableCell>
                             <TableCell align="center">Catatan</TableCell>
+                            <TableCell align="center">Sekolah</TableCell>
                             <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {kategori_pelanggaranData.map((r) => (
+                        {KategoriData.map((r) => (
                             <TableRow key={r.id}>
-                                <TableCell align="center">{r.SekolahId}</TableCell>
                                 <TableCell align="center">{r.Nama}</TableCell>
                                 <TableCell align="center">{r.Poin}</TableCell>
                                 <TableCell align="center">{r.Pesan}</TableCell>
                                 <TableCell align="center">{r.Catatan}</TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center">{r.SekolahId}</TableCell>
+                                <TableCell align="right">
                                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                                         <IconButton size="large" onClick={() => handleEdit(r)}>
                                             <EditIcon />
@@ -493,24 +328,14 @@ export default function Kategori_Pelanggaran() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
             <Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
-                <DialogTitle>Edit Kategori Pelanggaran</DialogTitle>
+                <DialogTitle>Edit Kategori</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Silakan edit informasi kategori pelanggaran di bawah ini.
+                        Silakan edit informasi kategori di bawah ini.
                     </DialogContentText>
                     <TextField
                         autoFocus
-                        margin="dense"
-                        name="SekolahId"
-                        label="Sekolah"
-                        type="text"
-                        fullWidth
-                        value={currentKategori?.SekolahId || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
                         margin="dense"
                         name="Nama"
                         label="Nama"
@@ -546,6 +371,24 @@ export default function Kategori_Pelanggaran() {
                         value={currentKategori?.Catatan || ''}
                         onChange={handleChange}
                     />
+                     <FormControl fullWidth margin="dense">
+                        <InputLabel id="sekolah-select-label-add">Sekolah</InputLabel>
+                      <Select
+                        margin="dense"
+                        name="SekolahId"
+                        label="Sekolah "
+                        type="text"
+                        fullWidth
+                        value={currentKategori?.SekolahId || ''}
+                        onChange={handleChange}
+                        >
+                             {SekolahData.map((sekolah) => (
+                            <MenuItem key={sekolah.id} value={sekolah.id}>
+                                {sekolah.Nama}
+                            </MenuItem>
+                        ))}
+                        </Select>
+                        </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseEditDialog}>Cancel</Button>
@@ -554,29 +397,20 @@ export default function Kategori_Pelanggaran() {
             </Dialog>
 
             <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
-                <DialogTitle>Add New Kategori Pelanggaran</DialogTitle>
+                <DialogTitle>Add Kategori</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Silakan masukkan informasi kategori pelanggaran di bawah ini.
+                        Silakan add informasi kategori di bawah ini.
                     </DialogContentText>
                     <TextField
                         autoFocus
-                        margin="dense"
-                        name="SekolahId"
-                        label="Sekolah"
-                        type="text"
-                        fullWidth
-                        value={currentKategori?.SekolahId || ''}
-                        onChange={handleChange}
-                    />
-                    <TextField
                         margin="dense"
                         name="Nama"
                         label="Nama"
                         type="text"
                         fullWidth
-                        value={currentKategori?.Nama || ''}
-                        onChange={handleChange}
+                        value={newKategori.Nama}
+                        onChange={handleAddChange}
                     />
                     <TextField
                         margin="dense"
@@ -584,8 +418,8 @@ export default function Kategori_Pelanggaran() {
                         label="Poin"
                         type="text"
                         fullWidth
-                        value={currentKategori?.Poin || ''}
-                        onChange={handleChange}
+                        value={newKategori.Poin}
+                        onChange={handleAddChange}
                     />
                     <TextField
                         margin="dense"
@@ -593,8 +427,8 @@ export default function Kategori_Pelanggaran() {
                         label="Pesan"
                         type="text"
                         fullWidth
-                        value={currentKategori?.Pesan || ''}
-                        onChange={handleChange}
+                        value={newKategori.Pesan}
+                        onChange={handleAddChange}
                     />
                     <TextField
                         margin="dense"
@@ -602,13 +436,32 @@ export default function Kategori_Pelanggaran() {
                         label="Catatan"
                         type="text"
                         fullWidth
-                        value={currentKategori?.Catatan || ''}
-                        onChange={handleChange}
+                        value={newKategori.Catatan}
+                        onChange={handleAddChange}
                     />
+                       <FormControl fullWidth margin="dense">
+                        <InputLabel id="sekolah-select-label-add">Sekolah</InputLabel>
+                      <Select
+                        margin="dense"
+                        name="SekolahId"
+                        label="Sekolah "
+                        type="text"
+                        fullWidth
+                        value={newKategori.SekolahId}
+                        onChange={handleAddChange}
+                        >
+                             {SekolahData.map((sekolah) => (
+                            <MenuItem key={sekolah.id} value={sekolah.id}>
+                                {sekolah.Nama}
+                            </MenuItem>
+                        ))}
+                        </Select>
+                        </FormControl>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseAddDialog}>Cancel</Button>
-                    <Button onClick={handleSaveNew}>Save</Button>
+                    <Button onClick={handleSaveAdd}>Save</Button>
                 </DialogActions>
             </Dialog>
         </div>
